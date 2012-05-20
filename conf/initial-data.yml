@@ -1,0 +1,46 @@
+#Users
+
+users:
+    - !!models.User
+        id:         101
+        email:      ivan.ivanov@kmail.com
+        fullname:   Ivan Ivanov
+        password:   secret
+
+    - !!models.User
+        id:         102
+        email:      petr.petrov@kmail.com
+        fullname:   Petr Petrov
+        password:   secret
+
+    - !!models.User
+        id:         103
+        email:      semen.semenov@kmail.com
+        fullname:   Semen Semeov
+        password:   secret
+
+posts:
+    - !!models.Post
+        id:         101
+        title:      Ukraine Spring Camp
+        postedAt:   2012-04-30
+        content:    This is my post and test of HTML like <br/> Structures. <ul><ui>my first point</ui><ui>my second point</ui></ul>
+        author: !!models.User
+                    id: 101
+        tags:
+                    - Kyokushin
+                    - Ukraine
+
+    - !!models.Post
+        id:         102
+        title:      Paris Bercy
+        postedAt:   2011-03-31
+        content:    This is another post and test of HTML like <br/> Structures. <table><tr><td>Column 1</td><td>Column 2</td></tr></table>
+        author: !!models.User
+                    id: 102
+        comments:
+            - !!models.Comment
+                id:         101
+                postedAt:   2011-03-31
+                author:     Nick Jeffrey
+                content:    my first comment

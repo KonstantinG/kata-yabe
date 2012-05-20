@@ -1,0 +1,40 @@
+@(post: Post, commentForm: Form[Comment])
+
+@import helper._
+@import tags._
+@import models._
+@import helper.twitterBootstrap._
+
+
+@main(session.get("blogTitle") + " - " + post.title){
+    @if(flash.get("success")){
+        <p class="success">@flash.get("success")</p>
+    }
+
+    @display(post,"full")
+
+    <h3>Post a comment</h3>
+    @form(routes.Application.postComment(post.id)){
+        <p>
+            @inputText(commentForm("author"), '_label -> "Your name: ", '_showConstraints -> false)
+        </p>
+        <p>
+            @helper.input(commentForm("content"), '_label -> "Your message: ", '_showConstraints -> false){ (id, name, value,args) =>
+            <textarea name="@name" id="@id" @toHtmlArgs(args)>@value</textarea>
+            }
+        </p>
+        <input type="submit" value="Submit your comment"/>
+    }
+<script type="text/javascript" charset="utf-8">
+    $(function(){
+        $('form').click(function(){
+            $('form').expose({api: true}).load();
+        });
+
+        if($('form .error').size()){
+            $('form').expose({api: true, loadSpeed: 0}).load();
+            $('form input').get(0).focus();
+        }
+    });
+</script>
+}

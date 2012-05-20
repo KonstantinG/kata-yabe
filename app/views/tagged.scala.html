@@ -1,0 +1,19 @@
+@(posts:List[Post], tag: String)
+
+@import helper._
+@import tags._
+
+@main(session.get("blogTitle") + " - Tagged with '" + tag + "'") {
+    @if(posts.size() > 0 ) {
+        <div class="older-posts">
+            <h3>Posts <span class="from">tagged with '@tag'</span></h3>
+            @for(post <- posts){
+            @display(post,"teaser")
+            }
+        </div>
+    }else{
+        <div class="empty">
+            <h3>There are no posts tagged with '@tag'.</h3>
+        </div>
+    }
+}

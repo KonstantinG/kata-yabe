@@ -1,0 +1,21 @@
+@(frontPost: Post, posts:List[Post])
+
+@import helper._
+@import tags._
+
+@main(session.get("blogTitle") + " - Tagged") {
+    @if(frontPost != null) {
+        @display(frontPost,"home")
+        <div class="older-posts">
+            <h3>Older posts <span class="from">from this blog</span></h3>
+            @for(post <- posts){
+            @display(post,"teaser")
+            }
+        </div>
+    }else{
+        <div class="empty">
+            <h3>There is currently nothing to read here.</h3>
+        </div>
+    }
+
+}

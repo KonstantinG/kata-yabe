@@ -1,0 +1,39 @@
+@(loginForm: Form[controllers.LoginController.Login])
+
+@import helper._
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+  <title>Login</title>
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/login.css")">
+</head>
+<body>    
+    @helper.form(routes.LoginController.authenticate){
+        <h1>Sign in</h1>
+        @if(loginForm.hasGlobalErrors){
+            <p class="error">
+                @loginForm.globalError.message
+            </p>        
+        }
+    
+        @if(flash.contains("success")){
+            <p class="success">
+                @flash.get("success")
+            </p>
+        }
+
+        <p>
+            <input type="email" name="email" placeholder="Email" value="@loginForm("email").value">
+        </p>
+        <p>
+            <input type="password" name="password" placeholder="Password">
+        </p>
+        <p>
+            <button type="submit">Login</button>
+        </p>
+    }
+</body>
+</html>

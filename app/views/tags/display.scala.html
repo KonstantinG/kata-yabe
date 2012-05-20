@@ -1,0 +1,73 @@
+@(post: Post, mode: String = "full")
+
+@import helper._
+
+<div class="post @if(mode == "teaser"){ teaser }">
+    <h2 class="post-title"><a href="@routes.Application.show(post.id)">@post.title</a></h2>
+    <div class="post-metadata">
+        <span class="post-author">by @{post.author.fullname}</span>
+        <span class="post-date">@{post.postedAt.format("MMM dd")}</span>
+            @if( mode!= null ){
+                <span class="post-comments">
+                    &nbsp;|&nbsp;
+                @{post.comments.size() ?:"no"}
+                    comment(s)
+                    @if(post.comments.size > 0){
+                        , latest by @{post.comments(0).author}
+                    }
+                </span>
+            }
+        @if(post.tags.size() > 0 ){
+            <span class="post-tags">
+                - Tagged
+                @for(tag <- post.tags){
+                    <a href="@routes.Application.listTagged(tag.name)">@tag.name</a>&nbsp;
+                }
+            </span>
+        }
+    </div>
+    @if(mode != "teaser"){
+        <div class="post-content">
+            <div class="about">Detail: </div>
+            @Html(post.content)
+        </div>
+    }
+
+</div>
+
+@if(mode == "full"){
+
+        <div class="comments">
+            <h3>@{post.comments.size() ?: "no"} comment(s)</h3>
+        </div>
+
+        @for(comment <- post.comments){
+            <div class="comment">
+                <div class="comment-metadata">
+                    <span class="comment-author">by @comment.author,</span>
+                    <span class="comment-date">
+                        @comment.postedAt.format("dd MMM yy")
+                    </span>
+                </div>
+                <div class="comment-content">
+                    <div class="about">Detail: </div>
+                    @if(comment.content){
+                        @Html(comment.content)
+                    }
+                </div>
+            </div>
+        }
+
+    <ul id="pagination">
+        @defining(post.previous()){ prPost =>
+            @if(prPost != null){
+            <li id="previous"><a href="@routes.Application.show(prPost.id)">@prPost.title</a></li>
+            }
+        }
+        @defining(post.next()){ nextPost =>
+            @if(nextPost != null){
+                <li id="next"><a href="@routes.Application.show(nextPost.id)">@nextPost.title</a></li>
+            }
+        }
+    </ul>
+}
